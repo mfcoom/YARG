@@ -18,12 +18,17 @@ Where the product stands: what is settled, what is still open, and the evidence 
 | Takes (record direct input, play back against tab) are the first addition after the slice | 3 | — |
 | Jam and Sketchpad form their own mode family, after the first slice. Suggestions come from a rule-based theory engine, and chords and keys come from Guitar Pro files, not audio | 3 | — |
 | Notation is tab staff. String lanes and the neck view were rejected in play-testing | 3 | — |
+| Page-turn tab (still lines, sweeping cursor, next line swapped in) is the starting layout; scrolling stays as an option | 4 | — |
 | Hardware: TD-17KVX over USB MIDI, plus a two-input Hi-Z Focusrite Scarlett for guitar and bass. The M-Track Solo is not needed | 2 | — |
 
 ## Open
 
-- **Tab motion**: scrolling tab (A) vs page-turn tab (D), and whether rhythm stems, chord names and hand-position markers stay on by default. Prototype v2 tests this.
-- **Technique notation**: the v2 glyph set needs a play-test (see the prototype's Technique key). Bass-specific marks (slap, pop) aren't drawn yet.
+- **Overlays**: whether rhythm stems, chord names and hand-position markers stay on by default.
+- **Line length on fast songs**: at 196 BPM a page-turn line can last under 3 seconds. Should a third line show, or should lines get longer?
+- **Technique notation**: the player said v2 "could use improvement". v3 follows Guitar Pro conventions (H/P labels; legato slides with an arc, shift slides as a line; slide in and out; ties as arcs; staccato; T/S/P; P.M. end tick; heavy accent; harmonic types; tuplets). It still needs specific feedback.
+- **Chord source for Jam**: none of the 3 real files contains chord names, which contradicts round 3's "chords from Guitar Pro files". The alternative is to guess chords from the notes of all parts. The v3 prototype does this; check its accuracy with the player.
+- **Drums from Guitar Pro**: all 3 files have drum tracks with per-piece General MIDI articulations (closed/open/pedal hi-hat, ride, crashes, toms). These could give kit-shaped TD-17 drum parts for songs that have no Elite Drums chart.
+- **Sections**: only 1 section marker across the 3 files. Practice sections need another source (chart sections when synced, otherwise bar ranges).
 - **Drum work** after the string slice: a TD-17 auto-map, kit-shaped view, hi-hat pedal (CC4), early/late feedback and a tempo ladder in practice.
 - **Shared screen**: how a tab staff and a drum view share one screen. Not explored yet.
 - **Mode structure**: Perform / Practice / Jam as one session with three intents, or separate modes.
@@ -52,4 +57,9 @@ I sampled 14 songs across metal, prog, neo-soul and rock. None has an official R
 1. **E1: MIDI timing.** Record a pad hit with a microphone into the Scarlett while logging when the TD-17's MIDI arrives. This measures MIDI latency and jitter against the audio clock.
 2. **E2: Visual offset.** Do people settle on stable values in prototype v2, and on the Unity build?
 3. **E3: ASIO sharing.** Can the game and an amp sim use the Scarlett at the same time? This decides how takes are captured.
-4. **E4: Guitar Pro import.** Run alphaTab on 3 real Guitar Pro files (a bass part, a 7-string part, one with heavy techniques) and check that string count, tuning, techniques, chord names and tempo changes survive.
+4. **E4: Guitar Pro import — done 2026-10-12** (alphaTab 1.8.4, JavaScript build: the same codebase as the .NET package).
+   - **Files**: Khayal (Kazdoura), Bubble Dream (CHON), Slumber Party (Brigitte Calls Me Baby). All parsed without errors.
+   - **What came through**: tracks, tunings (6-string guitar and 4-string bass), time signatures, and tempo changes, including Bubble Dream's 5 tempo marks. Song lengths match (Slumber Party: 161 bars, 237 s).
+   - **Techniques** (Bubble Dream guitars): dead notes, legato and shift slides, palm mute, natural harmonics, staccato, hammer-ons and pull-offs, ties, and slide in and out all came through and render in prototype v3.
+   - **Gaps**: chord names were 0 in all files, and there was 1 section marker in total. No file had repeats (all were already unrolled), so repeat unrolling is implemented but untested on real data.
+   - **Still open**: none of these files is 7-string. alphaTab reads a 7-string tuning correctly (string 1 = low B, checked with alphaTex), but a real 7-string Guitar Pro file is still needed.
