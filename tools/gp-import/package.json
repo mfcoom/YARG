@@ -1,0 +1,12 @@
+{
+  "name": "gp-import",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Converts Guitar Pro files into tab charts for the YARG practice fork.",
+  "type": "module",
+  "bin": { "gp-import": "src/cli.js" },
+  "scripts": { "test": "node --test" },
+  "engines": { "node": ">=20" },
+  "dependencies": { "@coderline/alphatab": "1.8.4" },
+  "license": "LGPL-3.0-or-later"
+}

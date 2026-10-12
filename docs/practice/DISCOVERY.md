@@ -20,13 +20,15 @@ Where the product stands: what is settled, what is still open, and the evidence 
 | Notation is tab staff. String lanes and the neck view were rejected in play-testing | 3 | — |
 | Page-turn tab (still lines, sweeping cursor, next line swapped in) is the starting layout; scrolling stays as an option | 4 | — |
 | Show a third line when the median line lasts under 4 s at the current speed (and there's room for it) | 5 | — |
+| Jam leads with the key's scale and the notes actually sounding; chord names are secondary | 6 | — |
+| The converter (`tools/gp-import`, Node + alphaTab) writes versioned JSON tab charts in integer ticks | 6 | ADR 0005, `docs/practice/tab-chart-format.md` |
 | Hardware: TD-17KVX over USB MIDI, plus a two-input Hi-Z Focusrite Scarlett for guitar and bass. The M-Track Solo is not needed | 2 | — |
 
 ## Open
 
 - **Overlays**: whether rhythm stems, chord names and hand-position markers stay on by default.
 - **Technique notation**: the player said v2 "could use improvement". v3 follows Guitar Pro conventions (H/P labels; legato slides with an arc, shift slides as a line; slide in and out; ties as arcs; staccato; T/S/P; P.M. end tick; heavy accent; harmonic types; tuplets). It still needs specific feedback.
-- **Chord source for Jam**: Guitar Pro files don't carry chord names (0 in 4 real files), so chords have to be guessed from the notes. The guesser is measured in `tools/chord-bench`: on held-out halves it scores root 92% / chord quality 84% on POP909 (algorithmic labels) and 70% / 69% on BPS-FH (labels written by people). Rock and metal aren't covered by either dataset. On the player's files it names power-chord riffs "X5" and puts a name in parentheses when some of its tones aren't sounding. Open: whether Jam shows chord names, or the scale and the tones actually sounding (which needs no naming).
+- **Chord source for Jam**: Guitar Pro files don't carry chord names (0 in 4 real files), so chords have to be guessed from the notes. The guesser is measured in `tools/chord-bench`: on held-out halves it scores root 92% / chord quality 84% on POP909 (algorithmic labels) and 70% / 69% on BPS-FH (labels written by people). Rock and metal aren't covered by either dataset. On the player's files it names power-chord riffs "X5" and puts a name in parentheses when some of its tones aren't sounding. Settled in round 6: Jam leads with the scale and the tones actually sounding; names are secondary.
 - **Drums from Guitar Pro**: all 3 files have drum tracks with per-piece General MIDI articulations (closed/open/pedal hi-hat, ride, crashes, toms). These could give kit-shaped TD-17 drum parts for songs that have no Elite Drums chart.
 - **Sections**: only 1 section marker across the 3 files. Practice sections need another source (chart sections when synced, otherwise bar ranges).
 - **Drum work** after the string slice: a TD-17 auto-map, kit-shaped view, hi-hat pedal (CC4), early/late feedback and a tempo ladder in practice.
@@ -51,6 +53,14 @@ I sampled 14 songs across metal, prog, neo-soul and rock. None has an official R
 - **Tap-along mapping**: probably needed for about 3–4 songs, the ones not recorded to a click: Tool "Schism", RHCP "Can't Stop", Vulfpeck "Dean Town", and possibly Foo Fighters "Everlong".
 - **Guitar Pro tempo plus a first-downbeat offset**: should be enough for the modern click-recorded prog, djent and neo-soul songs.
 - **Next step**: query the chart search from the PC (`POST https://api.enchor.us/search`) to verify which charts exist and whether they include stems.
+
+## Converter status (2026-10-12)
+
+- `tools/gp-import` converts .gp, .gpx, .gp5, .gp4 and .gp3 files to `<song>.tab.json`.
+- **Timing source:** playback order, bar positions and tempo come from alphaTab's own MIDI generator, so repeats, alternate endings, D.C./D.S./Coda/Fine jumps and pickup bars follow alphaTab's player.
+- **Tests:** 17 fixture tests. Two optional file sweeps: `GP_SAMPLES` (the player's own files) and `ALPHATAB_TESTDATA` (103 files from alphaTab's own test set). In the sweeps, every note alphaTab's player strikes is checked to appear at the same tick. All pass in the cloud workspace; the fixtures also pass on the PC's Linux shell. Not yet run in native Windows Node.
+- **Independent review:** found 14 defects in the first version, all fixed. The worst were wrong unrolling of multi-bar endings, nested repeats and D.S./D.C. jumps; pickup bars at full length; links across repeat jumps; capo missing from chord pitch; multi-staff tracks; keyboard tracks; and no Windows wildcard support.
+- **Not drawn yet** (counted in each part's `notDrawn`): whammy bar, fades, strum direction, trills, ornaments, rasgueado patterns, fingering numbers.
 
 ## Experiments queued
 
