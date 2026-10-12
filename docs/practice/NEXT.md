@@ -42,7 +42,9 @@ Report:
 
 ## Environment notes
 
-- **Upstream remote:** `upstream` = YARC-Official/YARG. The working branch is `practice`.
-- **Converter:** `tools/gp-import` needs Node 20 or newer. Its fixture tests pass on Linux; run `npm test` once in native Windows to confirm.
-- **Unity:** YARG `dev` uses Unity 6000.3.x. Check the editor version in `ProjectSettings/ProjectVersion.txt`.
+- **Remotes:** `origin` = mfcoom/YARG (our fork; `practice` is pushed there). `upstream` = YARC-Official/YARG, with its push URL set to `DISABLED` locally so nothing can be pushed to it.
+- **Converter:** `tools/gp-import` needs Node 20 or newer. Fixture tests pass on Linux and on native Windows (Node 24, 2026-10-12).
+- **Unity:** the project pins 6000.3.5f2; the PC has 6000.3.24f1 (`D:\DevTools\Unity`), which opens and compiles the project with 0 errors. Opening with .24f1 rewrites `ProjectVersion.txt`, `Packages/manifest.json`, `packages-lock.json` and `UniversalRenderPipelineGlobalSettings.asset`. Never commit those; or install 6000.3.5f2 to stop the churn.
+- **First open on a fresh clone:** NuGet packages (`Assets/Packages`, gitignored) aren't restored in batch mode, so compiling fails with ~270 missing-type errors. Restore them first with `dotnet tool install NuGetForUnity.Cli --tool-path <dir>` then `<dir>\nugetforunity restore <repo>`. If Unity's package cache reports ENOENT, set `UPM_CACHE_ROOT` to a fresh folder.
+- **.NET:** SDKs 8.0.401 and 11 rc1 are installed, and nuget.org is reachable from the PC.
 - **Chord benchmark:** `tools/chord-bench` reproduces the chord-guess scores. The datasets aren't committed.

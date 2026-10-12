@@ -62,6 +62,19 @@ I sampled 14 songs across metal, prog, neo-soul and rock. None has an official R
 - **Independent review:** found 14 defects in the first version, all fixed. The worst were wrong unrolling of multi-bar endings, nested repeats and D.S./D.C. jumps; pickup bars at full length; links across repeat jumps; capo missing from chord pitch; multi-staff tracks; keyboard tracks; and no Windows wildcard support.
 - **Not drawn yet** (counted in each part's `notDrawn`): whammy bar, fades, strum direction, trills, ornaments, rasgueado patterns, fingering numbers.
 
+## Test-song search (2026-10-12, on the PC)
+
+- **On disk:** the only Guitar Pro files are the four from E4 (in `Downloads`). There are no real song charts: the Clone Hero `Songs` folder is empty, and YARG isn't installed.
+- **Encore** (`api.enchor.us`) is reachable from the PC. Download: `https://files.enchor.us/<md5>.sng`. None of the charts found has stems; each `.sng` holds one mixed `song.opus`/`guitar.opus`.
+
+| Song | Bass part (Guitar Pro) | Chart on Encore | Stems | Guitar Pro tempo vs chart tempo map |
+|---|---|---|---|---|
+| CHON – Bubble Dream | 4-string E | 760 Creations & Boo (guitar, drums), `.chart`, 148 tempo marks | no | Not recorded to a click (191–199 BPM per bar against a flat 196). Bar 1 at 2.18 s after a 4-beat count-in; drift within ±20 ms to bar 100, up to 158 ms in the closing tempo changes. |
+| Trivium – Down From The Sky | **5-string B** (not playable on a 4-string without re-fretting) | Sygenysis + Nunchuck (guitar, bass, drums, pro drums), `.mid` | no | Chart is in half time (80 = 160). The 6/4 + 11/8 time signatures line up with Guitar Pro bars 51–56, 99–104 and 171–176, which puts bar 1 at 2.00 s after a 1-bar count-in at 120. The intro runs at 74–80 in the chart, so a flat Guitar Pro tempo is off by up to 260 ms there and the chart's map is needed. |
+| Trivium – Down From The Sky | as above | Sodamlazy, MathRabelo (drums), `.chart` | no | One tempo mark, 160, the same as Guitar Pro; the offset can't be read from tempo alone. |
+| Kazdoura – Khayal | 4-string E | none | — | — |
+| Brigitte Calls Me Baby – Slumber Party | 4-string E | none | — | — |
+
 ## Experiments queued
 
 1. **E1: MIDI timing.** Record a pad hit with a microphone into the Scarlett while logging when the TD-17's MIDI arrives. This measures MIDI latency and jitter against the audio clock.
