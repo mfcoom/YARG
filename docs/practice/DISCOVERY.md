@@ -19,14 +19,14 @@ Where the product stands: what is settled, what is still open, and the evidence 
 | Jam and Sketchpad form their own mode family, after the first slice. Suggestions come from a rule-based theory engine, and chords and keys come from Guitar Pro files, not audio | 3 | — |
 | Notation is tab staff. String lanes and the neck view were rejected in play-testing | 3 | — |
 | Page-turn tab (still lines, sweeping cursor, next line swapped in) is the starting layout; scrolling stays as an option | 4 | — |
+| Show a third line when the median line lasts under 4 s at the current speed (and there's room for it) | 5 | — |
 | Hardware: TD-17KVX over USB MIDI, plus a two-input Hi-Z Focusrite Scarlett for guitar and bass. The M-Track Solo is not needed | 2 | — |
 
 ## Open
 
 - **Overlays**: whether rhythm stems, chord names and hand-position markers stay on by default.
-- **Line length on fast songs**: at 196 BPM a page-turn line can last under 3 seconds. Should a third line show, or should lines get longer?
 - **Technique notation**: the player said v2 "could use improvement". v3 follows Guitar Pro conventions (H/P labels; legato slides with an arc, shift slides as a line; slide in and out; ties as arcs; staccato; T/S/P; P.M. end tick; heavy accent; harmonic types; tuplets). It still needs specific feedback.
-- **Chord source for Jam**: none of the 3 real files contains chord names, which contradicts round 3's "chords from Guitar Pro files". The alternative is to guess chords from the notes of all parts. The v3 prototype does this; check its accuracy with the player.
+- **Chord source for Jam**: Guitar Pro files don't carry chord names (0 in 4 real files), so chords have to be guessed from the notes. The guesser is measured in `tools/chord-bench`: on held-out halves it scores root 92% / chord quality 84% on POP909 (algorithmic labels) and 70% / 69% on BPS-FH (labels written by people). Rock and metal aren't covered by either dataset. On the player's files it names power-chord riffs "X5" and puts a name in parentheses when some of its tones aren't sounding. Open: whether Jam shows chord names, or the scale and the tones actually sounding (which needs no naming).
 - **Drums from Guitar Pro**: all 3 files have drum tracks with per-piece General MIDI articulations (closed/open/pedal hi-hat, ride, crashes, toms). These could give kit-shaped TD-17 drum parts for songs that have no Elite Drums chart.
 - **Sections**: only 1 section marker across the 3 files. Practice sections need another source (chart sections when synced, otherwise bar ranges).
 - **Drum work** after the string slice: a TD-17 auto-map, kit-shaped view, hi-hat pedal (CC4), early/late feedback and a tempo ladder in practice.
@@ -62,4 +62,5 @@ I sampled 14 songs across metal, prog, neo-soul and rock. None has an official R
    - **What came through**: tracks, tunings (6-string guitar and 4-string bass), time signatures, and tempo changes, including Bubble Dream's 5 tempo marks. Song lengths match (Slumber Party: 161 bars, 237 s).
    - **Techniques** (Bubble Dream guitars): dead notes, legato and shift slides, palm mute, natural harmonics, staccato, hammer-ons and pull-offs, ties, and slide in and out all came through and render in prototype v3.
    - **Gaps**: chord names were 0 in all files, and there was 1 section marker in total. No file had repeats (all were already unrolled), so repeat unrolling is implemented but untested on real data.
-   - **Still open**: none of these files is 7-string. alphaTab reads a 7-string tuning correctly (string 1 = low B, checked with alphaTex), but a real 7-string Guitar Pro file is still needed.
+   - **7-string confirmed** with Trivium "Down From The Sky": four 7-string parts in B standard, a 5-string bass (low B), 11 sections, a bar in 3/4, and techniques including bends and artificial harmonics. All render in prototype v4.
+   - **Tuning mismatch** came up straight away: the 5-string bass part can't be played as written on a 4-string bass. That's the re-fretting feature, still deferred.
